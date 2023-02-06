@@ -2,10 +2,10 @@ import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
 
 
-const register = (props) => {
+
+const Register = (props) => {
 
 	const form = useRef();
   const checkBtn = useRef();
@@ -45,9 +45,9 @@ const register = (props) => {
     <div className="col-md-12">
 			<div className="card card-container">
 				<img
-						src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+						src=""
 						alt="profile-img"
-						className="profile-img-card"
+						
 					/>
 					<Form onSubmit={handleRegister} ref={form}>
           {!successful && (
@@ -112,4 +112,4 @@ const register = (props) => {
   )
 }
 
-export default register
+export default Register
