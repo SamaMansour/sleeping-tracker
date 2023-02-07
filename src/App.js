@@ -1,4 +1,5 @@
 import Register from './layouts/auth/register';
+import Login from './layouts/auth/login'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from 'react-bootstrap/Container';
@@ -8,29 +9,26 @@ import "./App.css"
 function App() {
   return (
 
-
     <>
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+        <Navbar.Brand href="#home">Tracker</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="/signup">Signup</Nav.Link>
-          <Nav.Link href="#">Login</Nav.Link>
+          <Nav.Link href="/login">Login</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
  
-   
-
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<Login/>}/>
         <Route path='/signup' element={<Register/>}/>
+        <Route path='/login' element={<Login/>}/>
       </Routes>
     </BrowserRouter>
   </>
-   
-    
    
   );
 }
