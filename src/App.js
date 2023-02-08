@@ -1,5 +1,6 @@
 import Register from './layouts/auth/register';
 import Login from './layouts/auth/login'
+import AddEntry from './layouts/logs/addLog';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from 'react-bootstrap/Container';
@@ -20,12 +21,12 @@ function App() {
         </Nav>
       </Container>
     </Navbar>
- 
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login/>}/>
         <Route path='/signup' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/new' element={<AddEntry/>}/>
       </Routes>
     </BrowserRouter>
   </>
