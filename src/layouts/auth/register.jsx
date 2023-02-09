@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { register } from "../../redux/actions/auth";
 
 

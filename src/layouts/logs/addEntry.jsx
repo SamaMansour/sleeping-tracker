@@ -29,9 +29,11 @@ const AddEntry = (props) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         alert(JSON.stringify(values, null, 2))
+        console.log(parseInt(time[1].split(':'))-parseInt(time[0].split(':')));
         resolve()
       }, 3000)
     })
+
   }
 
   return (

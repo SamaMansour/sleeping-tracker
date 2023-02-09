@@ -1,6 +1,6 @@
 import Register from './layouts/auth/register';
 import Login from './layouts/auth/login'
-import AddEntry from './layouts/logs/addLog';
+import AddEntry from './layouts/logs/addEntry';
 import { Provider } from "react-redux";
 import store from "../src/redux/store/store" 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

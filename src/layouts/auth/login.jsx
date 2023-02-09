@@ -1,11 +1,18 @@
 import React, { useState, useRef } from "react";
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import { useDispatch } from "react-redux";
+import { Navigate, useNavigate  } from 'react-router-dom';
+import { login } from "../../redux/actions/auth";
+
 
 
 const Login= (props) => {
 	const form = useRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
   
   const onChangeEmail = (e) => {
     const email = e.target.value;
@@ -17,9 +24,20 @@ const Login= (props) => {
     setPassword(password);
   };
 
-  const handleSubmit = ()=>{
-
-  }
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+      dispatch(login(email, password))
+        .then(() => {
+          navigate("/new");
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    
+    
+  };
 
   return (
     <div>
@@ -33,7 +51,7 @@ const Login= (props) => {
                     Tracker
                   </h2>
                   <div className="mb-3">
-                    <Form onssubmit="handleSubmit()"ref={form}>
+                    <Form onSubmit={ handleLogin }ref={form}>
                       
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
@@ -60,7 +78,6 @@ const Login= (props) => {
                           <Button 
                           variant="primary" 
                           type="submit"
-                          href="/new"
                           >
                             Login
                           </Button>
