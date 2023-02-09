@@ -1,17 +1,22 @@
 import React, { useState, useRef } from "react";
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../redux/actions/auth";
 
 
 
 const Register = (props) => {
   const form = useRef();
   const checkBtn = useRef();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -28,11 +33,20 @@ const Register = (props) => {
     setPassword(password);
   };
 
-  const handleSubmit = ()=>{
+  const handleRegister = (e) => {
+    e.preventDefault();
 
-  }
+    setSuccessful(false);
 
-  
+    dispatch(register(username, email, password))
+      .then(() => {
+        setSuccessful(true);
+      })
+      .catch(() => {
+        setSuccessful(false);
+      });
+    
+  };
 
   return (
     <div>
@@ -46,7 +60,7 @@ const Register = (props) => {
                     Tracker
                   </h2>
                   <div className="mb-3">
-                    <Form onssubmit="handleSubmit()"ref={form}>
+                    <Form onSubmit={handleRegister} ref={form}>
                       <Form.Group className="mb-3" controlId="Name">
                         <Form.Label className="text-center">UserName</Form.Label>
                         <Form.Control type="text" placeholder="Enter UserName" 

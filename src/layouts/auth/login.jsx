@@ -2,8 +2,6 @@ import React, { useState, useRef } from "react";
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 
 
-
-
 const Login= (props) => {
 	const form = useRef();
   const [email, setEmail] = useState("");
@@ -59,9 +57,13 @@ const Login= (props) => {
                         />
                       </Form.Group>
                       <div className="d-grid">
-                        <Button variant="primary" type="submit">
-                          Login
-                        </Button>
+                          <Button 
+                          variant="primary" 
+                          type="submit"
+                          href="/new"
+                          >
+                            Login
+                          </Button>
                       </div>
                     </Form>
                     <div className="mt-3">

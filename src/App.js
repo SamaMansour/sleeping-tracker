@@ -1,6 +1,8 @@
 import Register from './layouts/auth/register';
 import Login from './layouts/auth/login'
 import AddEntry from './layouts/logs/addLog';
+import { Provider } from "react-redux";
+import store from "../src/redux/store/store" 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from 'react-bootstrap/Container';
@@ -21,6 +23,7 @@ function App() {
         </Nav>
       </Container>
     </Navbar>
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login/>}/>
@@ -29,6 +32,7 @@ function App() {
         <Route path='/new' element={<AddEntry/>}/>
       </Routes>
     </BrowserRouter>
+    </Provider>
   </>
    
   );
