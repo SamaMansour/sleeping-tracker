@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
-import axios from 'axios';
 import { useDispatch} from "react-redux";
 import { register } from "../../redux/actions/auth";
+import { Navigate, useNavigate  } from 'react-router-dom';
+
 
 
 
@@ -10,6 +11,7 @@ const Register = (props) => {
   const form = useRef();
   const checkBtn = useRef();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -41,6 +43,7 @@ const Register = (props) => {
     dispatch(register(username, email, password))
       .then(() => {
         setSuccessful(true);
+        navigate("/login");
       })
       .catch(() => {
         setSuccessful(false);
@@ -63,7 +66,7 @@ const Register = (props) => {
                     <Form onSubmit={handleRegister} ref={form}>
                       <Form.Group className="mb-3" controlId="Name">
                         <Form.Label className="text-center">UserName</Form.Label>
-                        <Form.Control type="text" placeholder="Enter UserName" 
+                        <Form.Control type="text" id="username" placeholder="Enter UserName" 
                         value={username}
                         onChange={onChangeUsername} 
                         />
@@ -73,7 +76,8 @@ const Register = (props) => {
                         <Form.Label className="text-center">
                           Email address
                         </Form.Label>
-                        <Form.Control type="email" 
+                        <Form.Control type="email"
+                        id="email" 
                         placeholder="Enter email"
                         value={email}
                         onChange={onChangeEmail} 
@@ -85,7 +89,8 @@ const Register = (props) => {
                         controlId="formBasicPassword"
                       >
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" 
+                        <Form.Control type="password" placeholder="Password"
+                        id="password"
                         value={password}
                         onChange={onChangePassword}  
                         />

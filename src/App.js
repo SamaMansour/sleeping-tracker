@@ -1,6 +1,7 @@
 import Register from './layouts/auth/register';
 import Login from './layouts/auth/login'
-import AddEntry from './layouts/logs/addEntry';
+import AddEntry from './layouts/entries/addEntry';
+import ListEntries from './layouts/entries/listEntries';
 import { Provider } from "react-redux";
 import store from "../src/redux/store/store" 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -30,6 +31,8 @@ function App() {
         <Route path='/signup' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/new' element={<AddEntry/>}/>
+        <Route path='/entriers' element={<ListEntries/>}/>
+
       </Routes>
     </BrowserRouter>
     </Provider>
