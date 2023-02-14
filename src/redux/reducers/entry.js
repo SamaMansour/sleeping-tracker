@@ -2,12 +2,12 @@ import {
   CREATE_ENTRY,
   RETRIEVE_ENTRIES,
   UPDATE_ENTRY,
-  DELETE_ENTRY,
+  DELETE_ENTRY
 } from "../actions/types";
 
 const initialState = [];
 
-export default function (entries= initialState, action) {
+const entryReducer = (entries = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -32,6 +32,10 @@ export default function (entries= initialState, action) {
     case DELETE_ENTRY:
       return entries.filter(({ id }) => id !== payload.id);
 
+
+    default:
+      return entries;
   }
 };
 
+export default entryReducer;

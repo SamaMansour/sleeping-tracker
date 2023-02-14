@@ -24,7 +24,10 @@ const login = (email, password) => {
     });
 };
 
-export default {
+const authService = {
   register,
   login
 }
+
+export default authService;
+

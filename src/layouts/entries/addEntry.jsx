@@ -1,101 +1,93 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import { useForm, HookForm } from 'react-hook-form';
 import { useDispatch } from "react-redux";
-import { SingleDatepicker} from "chakra-dayzed-datepicker"
-import TimePickerItem from "../../components/timePicker";
 import { createEntry } from "../../redux/actions/entry";
-import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+import { SingleDatepicker} from "chakra-dayzed-datepicker"
 
-import {
-  FormErrorMessage,
-  FormLabel,
-  FormControl,
-  Input,
-  Button,
-  ChakraProvider,
-  CSSReset,
-  Box 
-} from '@chakra-ui/react'
-
-
-const AddEntry = (props) => {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm()
-
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(['10:00', '11:00']);
-  const [successful, setSuccessful] = useState(false);
-  var duration = (parseInt(time[1].split(':'))-parseInt(time[0].split(':')));
+const AddEntry = () => {
+  const initialEntryState = {
+    id: null,
+    date: "",
+    time: "",
+    duration: ""
+  };
+  const [entry, setEntry] = useState(initialEntryState);
+  const [submitted, setSubmitted] = useState(false);
 
   const dispatch = useDispatch();
 
-  const handleSaveEntry = (e) => {
-    e.preventDefault();
-    console.log(parseInt(time[1].split(':'))-parseInt(time[0].split(':')));
-    console.log(time[1]);
-    console.log(duration);
-
-    setSuccessful(false);
-
-    dispatch(createEntry(date, time, duration))
-      .then(() => {
-        setSuccessful(true);
-        console.log("sent");
-        
-      })
-      .catch(() => {
-        setSuccessful(false);
-      });
-    
+  const handleInputChange = event => {
+    setEntry({ ...entry });
   };
 
-  function onSubmit(values) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2))
-        console.log(parseInt(time[1].split(':'))-parseInt(time[0].split(':')));
-        console.log(time[1]);
-        console.log(duration);
-        resolve()
-      }, 3000)
-    })
+  const saveEntry = () => {
+    const { date, time, duration } = entry;
 
-  }
+    dispatch(createEntry("2023-02-09", "10 pm", "7"))
+      .then(data => {
+        setEntry({
+          id: data.id,
+          date: data.date,
+          time: data.time,
+          duration: data.duration
+        });
+        setSubmitted(true);
 
-  
+        console.log(data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const newEntry = () => {
+    setEntry(initialEntryState);
+    setSubmitted(false);
+  };
 
   return (
-    <ChakraProvider>
-      <CSSReset />
-      <Box p={12}>
-        <form onSubmit={handleSaveEntry}>
-          <FormControl isInvalid={errors.name}>
-            <FormLabel htmlFor='date'>Date</FormLabel>
-            <SingleDatepicker
-              name="date-input"
-              date={date}
-              onDateChange={setDate}
+    <div className="submit-form">
+      {submitted ? (
+        <div>
+          <h4>You submitted successfully!</h4>
+          <button className="btn btn-success" onClick={newEntry}>
+            Add
+          </button>
+        </div>
+      ) : (
+        <div>
+          <div className="form-group">
+            <label htmlFor="title">Date</label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              required
+              value={entry.date}
+              onChange={handleInputChange}
+              name="title"
             />
-            <FormErrorMessage>
-              {errors.name && errors.name.message}
-            </FormErrorMessage>
-          </FormControl>
+          </div>
 
-          <FormControl isInvalid={errors.name}>
-            <FormLabel htmlFor='time'>Sleep & wakeup Time</FormLabel>
-            <TimeRangePicker className='form-control' onChange={ setTime} value={time} />
-          </FormControl>
-          <Button mt={4} colorScheme='purple' isLoading={isSubmitting} type='submit'>
-            Add Entry
-          </Button>
-        </form>
-    </Box>
-    </ChakraProvider>
-  )
+          <div className="form-group">
+            <label htmlFor="description">Time</label>
+            <input
+              type="text"
+              className="form-control"
+              id="description"
+              required
+              value={entry.time}
+              onChange={handleInputChange}
+              name="description"
+            />
+          </div>
+
+          <button onClick={saveEntry} className="btn btn-success">
+            Submit
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default AddEntry;

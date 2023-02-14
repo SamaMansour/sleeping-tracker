@@ -5,5 +5,6 @@ import entry from "./entry"
 
 
 export default combineReducers({
-  auth
+  auth,
+  entry
 });

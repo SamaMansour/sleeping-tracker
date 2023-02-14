@@ -1,177 +1,109 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useRef } from "react";
-import { Box, Flex, Grid, IconButton, Text } from "@chakra-ui/core";
-import Pagination from "../../components/pagination";
-import data from "../../mock-data.json";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveEntries,
+  findEntriesById,
+} from "../../redux/actions/entry";
+import { Link } from "react-router-dom";
 
-
-const columns = [
-  {
-    text: "First Name",
-    dataIndex: "first_name",
-    span: 3
-  },
-  {
-    text: "Last Name",
-    dataIndex: "last_name",
-    span: 3
-  },
-  {
-    text: "Email",
-    dataIndex: "email",
-    span: 4
-  },
-  {
-    text: "City",
-    dataIndex: "city",
-    span: 2
-  }
-];
 const ListEntries = () => {
-    const { next, prev, currentData, currentPage, maxPage } = Pagination(
-      data,
-      10
-    );
-    const [selectedId, setSelectedId] = useState(null);
-    const totalSpan = columns.reduce((total, rec) => total + rec.span, 0);
-  
-    const renderHeaderColumn = (text, start, span) => {
-      return (
-        <Box
-          bg="gray.200"
-          px={2}
-          py={2}
-          minWidth={0}
-          gridColumn={`${start} / span ${span}`}
-          whiteSpace="nowrap"
-          overflow="hidden"
-          textOverflow="ellipsis"
-        >
-          {text}
-        </Box>
-      );
-    };
-  
-    const getDataColumnBg = (idx, id) => {
-      if (id === selectedId) {
-        return { bg: "blue.100" }; // selected row
-      } else if (idx % 2 === 0) {
-        return { bg: "gray.50" };
-      }
-      return {};
-    };
-  
-    const renderDataColumn = (id, text, start, span, idx, key) => {
-      return (
-        <Box
-          px={2}
-          py={1}
-          {...getDataColumnBg(idx, id)}
-          borderBottom={1}
-          borderBottomColor="gray.200"
-          minWidth={0}
-          gridColumn={`${start} / span ${span}`}
-          whiteSpace="nowrap"
-          overflow="hidden"
-          textOverflow="ellipsis"
-          key={key}
-          onClick={() => setSelectedId(id !== selectedId ? id : null)}
-        >
-          {text}
-        </Box>
-      );
-    };
-  
-    const renderFooter = () => {
-      return (
-        <Flex
-          bg="gray.200"
-          px={2}
-          py={1}
-          minWidth={0}
-          justifyContent="space-between"
-          gridColumn={`1 / span ${totalSpan}`}
-          overflow="hidden"
-        >
-          <IconButton
-            aria-label="previous page"
-            icon="arrow-left"
-            variant="ghost"
-            borderRadius={20}
-            onClick={() => prev()}
-          >
-            prev
-          </IconButton>
-          <Text mt={2} fontSize="sm">
-            page {currentPage} of {maxPage}
-          </Text>
-          <IconButton
-            aria-label="next page"
-            icon="arrow-right"
-            variant="ghost"
-            borderRadius={20}
-            onClick={() => next()}
-          >
-            Next
-          </IconButton>
-        </Flex>
-      );
-    };
-  
-    const renderHeader = () => {
-      const headerCols = [];
-      let colStart = 1;
-  
-      columns.forEach(col => {
-        headerCols.push(renderHeaderColumn(col.text, colStart, col.span));
-        colStart += col.span;
-      });
-  
-      return headerCols;
-    };
-  
-    const renderDataRow = (rec, idx) => {
-      let colStart = 1;
-      // console.log("record id is" + rec.id);
-  
-      return columns.map(col => {
-        const row = renderDataColumn(
-          rec.id,
-          rec[col.dataIndex],
-          colStart,
-          col.span,
-          idx,
-          `${idx}-${colStart}`
-        );
-        colStart += col.span;
-        return row;
-      });
-    };
-  
-    const renderRows = data => {
-      return data.map((rec, idx) => renderDataRow(rec, idx));
-    };
-  
-    return (
-      <>
-        <Grid
-          gridTemplateColumns={`repeat(${totalSpan}, 1fr [col-start])`}
-          borderRadius={8}
-          border="1px"
-          borderColor="gray.200"
-          overflow="hidden"
-          minHeight={0}
-          minWidth={0}
-          mx={6}
-          my={2}
-        >
-          {renderHeader()}
-          {renderRows(currentData())}
-          {renderFooter()}
-        </Grid>
-      </>
+  const [currentEntry, setCurrentEntry] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [searchTitle, setSearchTitle] = useState("");
 
-  )
-}
+  const entries = useSelector(state => state.entries);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(retrieveEntries())
+      .then((data)=>{ console.log(data);})
+  }, []);
+
+  const onChangeSearchTitle = e => {
+    const searchTitle = e.target.value;
+    setSearchTitle(searchTitle);
+  };
+
+  const refreshData = () => {
+    setCurrentEntry(null);
+    setCurrentIndex(-1);
+  };
+
+  const setActiveEntry = (entry, index) => {
+    setCurrentEntry(entry);
+    setCurrentIndex(index);
+  };
+
+  
+
+  const findById = () => {
+    refreshData();
+    dispatch(findEntriesById(parseInt(searchTitle))).then((data)=>{ console.log(data);})
+  };
+
+  return (
+    <div className="list row">
+     
+      <div className="col-md-6">
+        <h4>Entries List</h4>
+
+        <ul className="list-group">
+          {entries && entries
+            .map((entry, index) => (
+              <li
+                className={
+                  "list-group-item " + (index === currentIndex ? "active" : "")
+                }
+                onClick={() => setActiveEntry(entry, index)}
+                key={index}
+              >
+                {entry.date}
+              </li>
+            ))}
+        </ul>
+
+        
+      </div>
+      <div className="col-md-6">
+        {currentEntry ? (
+          <div>
+            <h4>Entry</h4>
+            <div>
+              <label>
+                <strong>Date:</strong>
+              </label>{" "}
+              {currentEntry.date}
+            </div>
+            <div>
+              <label>
+                <strong>Time:</strong>
+              </label>{" "}
+              {currentEntry.time}
+            </div>
+            <div>
+              <label>
+                <strong>Duration:</strong>
+              </label>{" "}
+              {currentEntry.duration}
+            </div>
+           
+
+            <Link
+              to={"/entries/" + currentEntry.id}
+              className="badge badge-warning"
+            >
+              Edit
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <br />
+            <p>Please click on a Tutorial...</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default ListEntries;

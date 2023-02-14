@@ -5,11 +5,11 @@ import {
   DELETE_ENTRY,
 } from "./types";
 
-import EntryService from "../services/entry.service";
+import EntryDataService from "../services/entry.service";
 
 export const createEntry = (date, time, duration) => async (dispatch) => {
   try {
-    const res = await EntryService.create({ date, time, duration});
+    const res = await EntryDataService.create({ date, time, duration });
 
     dispatch({
       type: CREATE_ENTRY,
@@ -24,7 +24,7 @@ export const createEntry = (date, time, duration) => async (dispatch) => {
 
 export const retrieveEntries = () => async (dispatch) => {
   try {
-    const res = await EntryService.getAll();
+    const res = await EntryDataService.getAll();
 
     dispatch({
       type: RETRIEVE_ENTRIES,
@@ -37,7 +37,7 @@ export const retrieveEntries = () => async (dispatch) => {
 
 export const updateEntry = (id, data) => async (dispatch) => {
   try {
-    const res = await EntryService.update(id, data);
+    const res = await EntryDataService.update(id, data);
 
     dispatch({
       type: UPDATE_ENTRY,
@@ -52,7 +52,7 @@ export const updateEntry = (id, data) => async (dispatch) => {
 
 export const deleteEntry = (id) => async (dispatch) => {
   try {
-    await EntryService.delete(id);
+    await EntryDataService.remove(id);
 
     dispatch({
       type: DELETE_ENTRY,
@@ -65,9 +65,9 @@ export const deleteEntry = (id) => async (dispatch) => {
 
 
 
-export const findTutorialsById = (id) => async (dispatch) => {
+export const findEntriesById = (id) => async (dispatch) => {
   try {
-    const res = await EntryService.findByTitle(id);
+    const res = await EntryDataService.findById(id);
 
     dispatch({
       type: RETRIEVE_ENTRIES,
