@@ -11,7 +11,7 @@ const Login= (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  let navigate = useNavigate();
+  //let navigate = useNavigate();
   const dispatch = useDispatch();
   
   const onChangeEmail = (e) => {
@@ -29,7 +29,7 @@ const Login= (props) => {
     
       dispatch(login(email, password))
         .then(() => {
-          navigate("/new");
+          //navigate("/new");
           window.location.reload();
         })
         .catch((error) => {
@@ -61,6 +61,7 @@ const Login= (props) => {
                         placeholder="Enter email"
                         value={email}
                         onChange={onChangeEmail} 
+                        data-testid="email"
                         />
                       </Form.Group>
 
@@ -71,7 +72,8 @@ const Login= (props) => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" 
                         value={password}
-                        onChange={onChangePassword}  
+                        onChange={onChangePassword}
+                        data-testid="password" 
                         />
                       </Form.Group>
                       <div className="d-grid">

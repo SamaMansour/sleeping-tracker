@@ -21,7 +21,7 @@ const remove = id => {
 };
 
 const findById = id => {
-  return http.get(`/entries?id=${id}`);
+  return http.get(`/entries/${id}`);
 };
 
 const EntryService = {

@@ -11,7 +11,7 @@ const Register = (props) => {
   const form = useRef();
   const checkBtn = useRef();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -43,7 +43,7 @@ const Register = (props) => {
     dispatch(register(username, email, password))
       .then(() => {
         setSuccessful(true);
-        navigate("/login");
+        //navigate("/login");
       })
       .catch(() => {
         setSuccessful(false);
@@ -52,7 +52,7 @@ const Register = (props) => {
   };
 
   return (
-    <div>
+    <>
       <Container>
         <Row className="vh-100 d-flex justify-content-center align-items-center">
           <Col md={8} lg={6} xs={12}>
@@ -66,7 +66,7 @@ const Register = (props) => {
                     <Form onSubmit={handleRegister} ref={form}>
                       <Form.Group className="mb-3" controlId="Name">
                         <Form.Label className="text-center">UserName</Form.Label>
-                        <Form.Control type="text" id="username" placeholder="Enter UserName" 
+                        <Form.Control type="text" id="username" placeholder="Enter UserName" data-testid="username" 
                         value={username}
                         onChange={onChangeUsername} 
                         />
@@ -79,6 +79,7 @@ const Register = (props) => {
                         <Form.Control type="email"
                         id="email" 
                         placeholder="Enter email"
+                        data-testid="email"
                         value={email}
                         onChange={onChangeEmail} 
                         />
@@ -91,6 +92,7 @@ const Register = (props) => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password"
                         id="password"
+                        data-testid="password"
                         value={password}
                         onChange={onChangePassword}  
                         />
@@ -104,7 +106,7 @@ const Register = (props) => {
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Already have an account??{' '}
-                        <a href="/login" className="text-primary fw-bold">
+                        <a href="/login" id= "signup" className="text-primary fw-bold">
                           Sign In
                         </a>
                       </p>
@@ -116,7 +118,7 @@ const Register = (props) => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </>
   );
 };
 

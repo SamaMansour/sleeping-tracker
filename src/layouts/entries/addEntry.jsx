@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createEntry } from "../../redux/actions/entry";
-import { SingleDatepicker} from "chakra-dayzed-datepicker"
+import { SingleDatepicker} from "chakra-dayzed-datepicker";
+import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+
 
 const AddEntry = () => {
   const initialEntryState = {
@@ -12,17 +14,20 @@ const AddEntry = () => {
   };
   const [entry, setEntry] = useState(initialEntryState);
   const [submitted, setSubmitted] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(['10:00', '11:00']);
+  var duration = ((parseInt(time[1].split(':'))-parseInt(time[0].split(':'))).toString());
 
   const dispatch = useDispatch();
 
-  const handleInputChange = event => {
-    setEntry({ ...entry });
-  };
+  // const handleInputChange = event => {
+  //   setEntry({ ...entry });
+  // };
 
   const saveEntry = () => {
-    const { date, time, duration } = entry;
+   
 
-    dispatch(createEntry("2023-02-09", "10 pm", "7"))
+    dispatch(createEntry(date, time[1], duration))
       .then(data => {
         setEntry({
           id: data.id,
@@ -57,28 +62,17 @@ const AddEntry = () => {
         <div>
           <div className="form-group">
             <label htmlFor="title">Date</label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              required
-              value={entry.date}
-              onChange={handleInputChange}
-              name="title"
+            <SingleDatepicker
+              name="date-input"
+              date={date}
+              onDateChange={setDate}
             />
+
           </div>
 
           <div className="form-group">
             <label htmlFor="description">Time</label>
-            <input
-              type="text"
-              className="form-control"
-              id="description"
-              required
-              value={entry.time}
-              onChange={handleInputChange}
-              name="description"
-            />
+            <TimeRangePicker className='form-control' onChange={ setTime} value={time} />
           </div>
 
           <button onClick={saveEntry} className="btn btn-success">
