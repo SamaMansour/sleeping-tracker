@@ -19,7 +19,7 @@ const ListEntries = () => {
   const getSleeps = async () => {
     try {
       
-      const response = await fetch(`http://localhost:1337/api/v1/entries`);
+      const response = await fetch(`/api/v1/entries`);
       const jsonData = await response.json();
 
       setEntries(jsonData);
@@ -73,7 +73,7 @@ const ListEntries = () => {
           </tr>
         </thead>
         <tbody>
-          {entries.map((entry) => (
+          {entries && entries.map((entry) => (
             <tr>
               <td>{entry.time}</td>
               <td>{new Date(entry.date).toDateString()}</td>

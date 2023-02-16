@@ -1,53 +1,86 @@
-import React from "react";
-import ReactDOM from "react-dom";
-
-// Set up any imports needed for react-vis
+import React, { useEffect } from "react";
 import {
-  XYPlot,
-  VerticalGridLines,
-  HorizontalGridLines,
-  XAxis,
-  YAxis,
-  VerticalBarSeries,
-  VerticalBarSeriesCanvas,
-  LabelSeries
-} from "react-vis";
+  Chart as ChartJS,
+  TimeScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import "chartjs-adapter-date-fns";
+import { Bar } from "react-chartjs-2";
 
-// Set up the dataset for the left part.
-const greenData = [{ x: "A", y: 2 }, { x: "B", y: 7 }, { x: "C", y: 15 }];
+ChartJS.register(TimeScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-// Set up the dataset for the right part.
-const blueData = [{ x: "A", y: 14 }, { x: "B", y: 12 }, { x: "C", y: 11 }];
+const Charts = ({ entries }) => {
+  const options = {
+    responsive: true,
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        type: "time",
+        time: {
+          unit: "day",
+        },
+        ticks: {
+          color: "white",
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: "white",
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          color: "white",
+        },
+      },
+      title: {
+        display: true,
+        text: "Sleep Chart",
+        color: "white",
+      },
+    },
+  };
 
-// Set up labels.
-const labelData = greenData.map((d, idx) => ({
-  x: d.x,
-  y: Math.max(greenData[idx].y, blueData[idx].y)
-}));
+  const data = {
+    // labels: sleeps.map((x) => new Date(x.date)),
+    labels: entries.map((x) => x.date),
+    datasets: [
+      {
+        label: "Duration",
+        data: entries.map((x) => x.time),
+        borderColor: "rgb(0, 0, 0)",
+        backgroundColor: "rgba(0, 153, 76, 0.8)",
+        borderRadius: 10,
+      },
+    ],
+  };
 
+  // useEffect(() => {}, []);
 
-const Charts = () => {
-  const BarSeries = VerticalBarSeries;
-  console.log(labelData);
   return (
-    <div className="App">
-      <XYPlot
-        animation
-        xType="ordinal"
-        width={800}
-        height={800}
-        xDistance={100}
-      >
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <XAxis />
-        <YAxis />
-        <BarSeries className="vertical-bar-series-example" data={greenData} />
-        <BarSeries data={blueData} />
-        <LabelSeries data={labelData} getLabel={d => d.x} />
-      </XYPlot>
+    <div>
+      <div className="container my-5 text-light">
+        {entries.length > 4 ? (
+          <Bar options={options} data={data} />
+        ) : (
+          <div>You need 5 days to see a chart.</div>
+        )}
+        {/* <Bar options={options} data={data} /> */}
+      </div>
     </div>
   );
-}
+};
 
-export default Charts
+export default Charts;
