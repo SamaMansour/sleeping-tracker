@@ -1,8 +1,0 @@
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAIL = "REGISTER_FAIL";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAIL = "LOGIN_FAIL";
-export const CREATE_ENTRY = "CREATE_ENTRY";
-export const RETRIEVE_ENTRIES = "RETRIEVE_ENTRIES";
-export const UPDATE_ENTRY = "UPDATE_ENTRY";
-export const DELETE_ENTRY = "DELETE_ENTRY";

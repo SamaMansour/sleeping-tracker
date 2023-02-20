@@ -1,14 +1,10 @@
-import Register from './views/auth/register';
-import Charts from './views/charts/charts'
-import AddEntry from './views/entries/addEntry';
-import ListEntries from './views/entries/listEntries';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Provider } from "react-redux";
-import store from "../src/redux/store/store";
+import store from "./store/index";
 import HomePage from "./views/Homepage";
 import SigninForm from './components/SigninForm';
 import RegisterForm from './components/RegisterForm';
@@ -34,9 +30,7 @@ function App() {
           <Route path='/' element={<HomePage/>}/>
           <Route path='/signup' element={<RegisterForm/>}/>
           <Route path='/login' element={<SigninForm/>}/>
-          <Route path='/new' element={<AddEntry/>}/>
-          <Route path='/entries' element={<ListEntries/>}/>
-          <Route path='/charts' element={<Charts/>}/>
+          
         </Routes>
       </BrowserRouter>
       </Provider>

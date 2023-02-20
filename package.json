@@ -26,6 +26,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.7",
     "framer-motion": "^9.0.4",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
@@ -53,7 +54,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "jest": {
     "preset": "jest-puppeteer",
@@ -67,6 +70,16 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -82,13 +95,26 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/node-logger": "^6.5.16",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
+    "babel-plugin-named-exports-order": "^0.0.2",
     "jest": "29.3.1",
     "jest-environment-jsdom": "29.3.1",
     "jest-puppeteer": "^7.0.0",
     "mailslurp-client": "^15.16.2",
+    "prop-types": "^15.8.1",
     "puppeteer": "^19.7.0",
     "redux-devtools-extension": "^2.13.9",
-    "vitest": "0.25.3"
+    "vitest": "0.25.3",
+    "webpack": "^5.75.0"
   },
   "babel": {
     "presets": [
